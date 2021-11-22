@@ -1,0 +1,31 @@
+CREATE PROCEDURE ErrorLog_OnRollback
+@uniqueId int,
+AS
+BEGIN
+SET NOCOUNT ON 
+        
+         INSERT INTO [ErrorLog]  
+             (           
+            uniqueId
+            ,ErrorNumber 
+            ,ErrorDescription 
+            ,ErrorProcedure 
+            ,ErrorState 
+            ,ErrorSeverity 
+            ,ErrorLine 
+            ,ErrorTime 
+           )
+           VALUES
+           (          
+           @uniqueId
+            , ERROR_NUMBER()
+            ,ERROR_MESSAGE()
+            ,ERROR_PROCEDURE()
+            ,ERROR_STATE()
+            ,ERROR_SEVERITY()
+            ,ERROR_LINE()
+            ,GETDATE()  
+           );
+    
+SET NOCOUNT OFF    
+END
